@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+<title>Follow User</title>
+</head>
+<body>
+
+		<input type="button" id="button2" value="Fetch All Users" />
+		
+		<input type="hidden" name="userId" id="userId" th:value="${userId}" />
+		
+		<div id="fetchUserResults" style="padding-left: 50px;padding-top:20px;padding-bottom:20px;">
+		
+		</div>
+		
+		
+		<div style="padding-left: 50px;padding-top:20px;padding-bottom:20px;">Follow User</div>
+		
+		<table style="height: 5px;" width="264">
+			<tbody>
+				<tr>
+					<td style="width: 131.2px;">User Id</td>
+					<td style="width: 132px;"><input type="text" id="FollowUserId" name="FollowUserId"/></td>
+				</tr>
+				
+			</tbody>
+		</table>
+		<input type="button" id="button3" value="Follow User" />
+		
+		
+		<div id="followedUserWall">
+		
+		</div>
+		
+		
+		<script>
+	
+	getFollowMessages();
+	
+	function getFollowMessages() {
+	  setInterval(function(){ 
+	   $.ajax({
+	   		url: "/socialNetwork/follow/user/wall",
+	   		success: function(result)
+	   			{
+	   			var jsonText = JSON.stringify(result);
+	     		 $("#followedUserWall").html(jsonText);
+	    	}}); 
+	    }, 10000);
+	}
+	
+	
+	
+	$('#button2').click(function() {
+	   $.ajax({
+	   		url: "/socialNetwork/fetch/users/all",
+	   		datatype: JSON, 
+	   		success: function(result)
+	   			{
+	     		$("#fetchUserResults").html(result);
+	    	}}); 
+	    }
+	);
+	
+	$('#button3').click(function() {
+	   $.ajax({
+	   		url: "/socialNetwork/follow/user", 
+	   		data: {followUserId:$('#FollowUserId').val()},
+	   		type:'post',
+	   		success: function(result)
+	   			{
+	     		$('#FollowUserId').val('');
+	    	}}); 
+	    }
+	);
+
+	</script>
+		
+		
+</body>
+</html>

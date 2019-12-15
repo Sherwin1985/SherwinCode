@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+
+<title>User Wall</title>
+</head>
+<body>
+
+<span style="padding-left: 50px;">User Wall</span>
+	
+		<table style="height: 5px;" width="264">
+			<tbody>
+				<tr>
+					<td style="width: 131.2px;">Enter Message</td>
+					<td style="width: 132px;"><input type="text" id="message" name="message"/></td>
+					<input type="hidden" name="userId" id="userId" th:value="${userId}" />
+				</tr>
+				
+			</tbody>
+		</table>
+		<input type="button" id="button1" value="Add Message"/>
+
+	<div style="padding-top:10px;">
+	<a href="/socialNetwork/user/follow">Follow User</a>
+	</div>
+	
+	<div style="padding-top: 20px;padding-bottom: 20px;">Messages</div>
+	<div id="messageValue">
+		
+	</div>
+	
+	<script>
+	
+	var vUserid = $('#userId').val();
+	
+	
+	
+	myFunction();
+	
+	function myFunction() {
+	  setInterval(function(){ 
+	   $.ajax({
+	   		url: "/socialNetwork/user/wall/data", 
+	   		data: {userId:vUserid},
+	   		success: function(result)
+	   			{
+	     		 $("#messageValue").html(result);
+	    	}}); 
+	    }, 10000);
+	}
+	
+	$('#button1').click(function() {
+	   $.ajax({
+	   		url: "/socialNetwork/user/page", 
+	   		data: {userId:vUserid,message:$('#message').val()},
+	   		type: 'post',
+	   		datatype: JSON,
+	   		success: function(result)
+	   			{
+	     		$('#message').val('');
+	    	}}); 
+	    }
+	);
+
+	</script>
+</body>
+</html>
