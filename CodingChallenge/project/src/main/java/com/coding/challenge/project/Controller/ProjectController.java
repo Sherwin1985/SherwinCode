@@ -71,9 +71,9 @@ public class ProjectController {
 	}
 	
 	
-	@GetMapping(value="/user/wall/data")
+	@GetMapping(value="/user/wall/data/{id}")
 	@ResponseBody
-	public List<String> retrieveUserWallData(@RequestParam String userId) {
+	public List<String> retrieveUserWallData(@PathVariable String userId) {
 		
 		List<String> messages = new ArrayList<>();
 		
